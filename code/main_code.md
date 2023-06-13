@@ -16,8 +16,8 @@
 #include "BluetoothSerial.h"
 
 /*---------- WIFI ID & PW ----------*/
-const char *ssid = "testpilot";
-const char *password = "smarcle2017";
+const char *ssid = "wifissid";
+const char *password = "password";
 
 // kakao api token
 const char *host = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
