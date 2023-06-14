@@ -16,8 +16,8 @@
 #include "BluetoothSerial.h"
 
 /*---------- WIFI ID & PW ----------*/
-const char *ssid = "wifissid";
-const char *password = "password";
+const char *ssid = "testpilot";
+const char *password = "smarcle2017";
 
 // kakao api token
 const char *host = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
@@ -207,38 +207,48 @@ void loop() {
   int pb = digitalRead(switchon);
   unsigned long emer;
 
+  gasValue = analogRead(gas);
+  Serial.println(gasValue);
+
   /*---------- touch sensing ----------*/
-  float touchValue = touchRead(33);
+  int touchValue = touchRead(33);
 
   if (touchValue < 70){
+    digitalWrite(red, LOW);
+    digitalWrite(buz, LOW);
+
     while(i < 3){    // cute eyes
       for (j = 0; j <8; j++){
         lc.setRow(0, j, right_cute1[j]);
         lc.setRow(1, j, left_cute1[j]);
       }
-      delay(350);   
+      digitalWrite(green, HIGH);
+      delay(300);   
+
       for (j = 0; j <8; j++) {
         lc.setRow(0, j, right_cute2[j]);
         lc.setRow(1, j, left_cute2[j]);
       }
-      delay(350);
+      digitalWrite(green, LOW);
+      delay(300);
       i++;
     }
-    for (j = 0; j <8; j++){     // heart emotion
+
+    // heart emotion
+    for (j = 0; j <8; j++){
       lc.setRow(0, j, heart[j]);
       lc.setRow(1, j, heart[j]);
     }
+    digitalWrite(green, HIGH);
+
     // send kakao message
     if ( update_access_token() == true ) {
       send_message3();
     }
-    delay(1000);
   }
 
   /*---------- gas sensing ----------*/
-  gasValue = analogRead(gas);
-
-  if (gasValue > 400){
+  if (gasValue > 300){
     while(1){
       Serial.println(F("*****Fire!!!!!*****"));
       digitalWrite(green, LOW);
@@ -263,20 +273,18 @@ void loop() {
   if (p1 == LOW && p2 == LOW) {
     digitalWrite(green, LOW);
     digitalWrite(red, HIGH);
+    digitalWrite(buz, HIGH);
+
     emer = millis();
 
     // surprised face
-    delay(500);
     for (j = 0; j <8; j++)   {
       lc.setRow(0, j, open_eyes[j]);
       lc.setRow(1, j, open_eyes[j]);
     }
 
     if (emer - past >= 5000){
-      digitalWrite(buz, HIGH);
-
       // sad face
-      delay(500);
       for (j = 0; j <8; j++)   {
         lc.setRow(0, j, sad[j]);
         lc.setRow(1, j, sad[j]);
