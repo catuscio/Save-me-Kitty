@@ -1,12 +1,13 @@
 # 메인 코드
 ```c
 /*---------- macro ----------*/
+/*---------- macro ----------*/
 #define APP_KEY "1fafcdf5ce97c4ccd2ec0faffbe8b20d"
 #define REFRESH_TOKEN "G-Vk3R74XUeF2qmB6WqtItulAcgbjppwKQvGYa6ZCiolkAAAAYikMAMZ"
 #define dataIn 18
 #define cs 19
 #define clk 21
-#define gas A0
+#define gas 35
 
 /*---------- Libraries ----------*/
 #include <WiFi.h>
@@ -16,8 +17,8 @@
 #include "BluetoothSerial.h"
 
 /*---------- WIFI ID & PW ----------*/
-const char *ssid = "testpilot";
-const char *password = "smarcle2017";
+const char *ssid = "WIFI_SSID";
+const char *password = "WIFI_PASSWORD";
 
 // kakao api token
 const char *host = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
@@ -179,8 +180,8 @@ void setup() {
   // LED settings
   lc.shutdown(0, false);
   lc.shutdown(1, false);
-  lc.setIntensity(0, 7);
-  lc.setIntensity(1, 7);
+  lc.setIntensity(0, 10);
+  lc.setIntensity(1, 10);
   lc.clearDisplay(0);
   lc.clearDisplay(1);
 
