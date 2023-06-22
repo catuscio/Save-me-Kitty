@@ -1,7 +1,6 @@
 # 메인 코드
 ```c
 /*---------- macro ----------*/
-/*---------- macro ----------*/
 #define APP_KEY "1fafcdf5ce97c4ccd2ec0faffbe8b20d"
 #define REFRESH_TOKEN "G-Vk3R74XUeF2qmB6WqtItulAcgbjppwKQvGYa6ZCiolkAAAAYikMAMZ"
 #define dataIn 18
@@ -14,11 +13,10 @@
 #include <HTTPClient.h>
 #include <base64.h>
 #include "LedControl.h"
-#include "BluetoothSerial.h"
 
 /*---------- WIFI ID & PW ----------*/
-const char *ssid = "WIFI_SSID";
-const char *password = "WIFI_PASSWORD";
+const char *ssid = "SSID";
+const char *password = "PW";
 
 // kakao api token
 const char *host = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
@@ -165,6 +163,8 @@ byte open_eyes[8] =
 
 /*---------- setup func ----------*/
 void setup() {
+  int btCnt = 0;
+
   // Serial settings
   Serial.begin(115200);
   Serial.println(F("Hello, ESP32!\n"));
@@ -180,8 +180,8 @@ void setup() {
   // LED settings
   lc.shutdown(0, false);
   lc.shutdown(1, false);
-  lc.setIntensity(0, 10);
-  lc.setIntensity(1, 10);
+  lc.setIntensity(0, 15);
+  lc.setIntensity(1, 15);
   lc.clearDisplay(0);
   lc.clearDisplay(1);
 
@@ -207,6 +207,7 @@ void loop() {
   int p2 = digitalRead(pir2);
   int pb = digitalRead(switchon);
   unsigned long emer;
+
 
   gasValue = analogRead(gas);
   Serial.println(gasValue);
@@ -264,8 +265,10 @@ void loop() {
 
       // send kakao message
       if ( update_access_token() == true ) {
-          if (cnt == 0) send_message1();
-          cnt++;    // only once
+        if (cnt == 0) {
+          send_message1();
+        }
+        cnt++;    // only once
       }
     }
   }
@@ -293,7 +296,9 @@ void loop() {
 
       // send kakao message
       if ( update_access_token() == true ) {
-        if (cnt == 0) send_message2();
+        if (cnt == 0) {
+          send_message2();
+        }
         cnt++;
       }
     }
@@ -330,6 +335,7 @@ void loop() {
       {
         send_message1();
         send_message2();
+        send_message3();
       }
     }
   }
